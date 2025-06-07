@@ -6,7 +6,7 @@ resource "aws_eip" "nat_eip" {
 
 resource "aws_nat_gateway" "nat" {
   allocation_id = aws_eip.nat_eip.id
-  subnet_id     = aws_subnet.public["subnet_a"].id
+  subnet_id     = var.subnet_public
 
   tags = {
     Name = "nat-gateway"
@@ -14,7 +14,7 @@ resource "aws_nat_gateway" "nat" {
 }
 
 resource "aws_route_table" "private_rt" {
-  vpc_id = aws_vpc.main.id
+  vpc_id = var.main_vpc
 
   route {
     cidr_block = "0.0.0.0/0"
@@ -27,11 +27,11 @@ resource "aws_route_table" "private_rt" {
 }
 
 resource "aws_route_table_association" "private_assoc_a" {
-  subnet_id = aws_subnet.private["subnet_a"].id
+  subnet_id = var.private_subnet_a
   route_table_id = aws_route_table.private_rt.id
 }
 
 resource "aws_route_table_association" "private_assoc_b" {
-  subnet_id      = aws_subnet.private["subnet_b"].id
+  subnet_id      = var.private_subnet_b
   route_table_id = aws_route_table.private_rt.id
 }

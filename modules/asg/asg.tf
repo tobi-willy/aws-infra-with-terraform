@@ -3,13 +3,13 @@ resource "aws_autoscaling_group" "web_asg" {
   max_size = 2
   min_size = 1
   desired_capacity = 1
-  vpc_zone_identifier = [aws_subnet.public["subnet_a"].id,aws_subnet.public["subnet_b"].id]
-  target_group_arns = [aws_lb_target_group.web_tg.arn]
+  vpc_zone_identifier = var.public_subnets
+  target_group_arns = [var.target_group_arn]
   health_check_type = "ELB"
   health_check_grace_period = 30
 
   launch_template {
-    id = aws_launch_template.web_template.id
+    id = var.launch_template_id
     version = "$Latest"
   }
 

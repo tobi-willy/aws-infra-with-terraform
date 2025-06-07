@@ -1,16 +1,15 @@
-output "instance_public_ip" {
-  value = aws_instance.web.public_ip
-}
-
 output "alb_dns_name" {
-  value = aws_lb.web_alb.dns_name
+  value = module.alb.alb_dns_name
 }
 
 output "instance_private_ip" {
-  value = aws_instance.app.private_ip
+  value = module.ec2.app_private_ip
 }
 
 output "rds_endpoint" {
-  value = aws_db_instance.app-db.endpoint
-     
+  value = module.ec2.rds_endpoint
+}
+
+output "bastion_public_ip" {
+  value = module.ec2.bastion_public_ip
 }

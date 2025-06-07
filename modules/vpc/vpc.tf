@@ -43,3 +43,10 @@ resource "aws_subnet" "private" {
   availability_zone = each.key == "subnet_a" ? "us-east-2a" : "us-east-2b"
   map_public_ip_on_launch = false
 }
+
+resource "aws_route_table_association" "public_assoc" {
+  for_each = aws_subnet.public
+
+  subnet_id  =  each.value.id
+  route_table_id = aws_route_table.public_rt.id
+}
